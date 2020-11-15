@@ -1,0 +1,66 @@
+﻿  XnUSBWin32.cpp
+  XnErrorLogger.cpp
+  XnLib.cpp
+  XnWin32CriticalSection.cpp
+  XnWin32Debug.cpp
+  XnWin32Events.cpp
+  XnWin32Files.cpp
+  XnWin32INI.cpp
+c:\users\arvind\desktop\projects\openni2\thirdparty\pscommon\xnlib\source\win32\xnusbwin32.cpp(66): warning C4477: 'sprintf_s' : format string '%x' requires an argument of type 'unsigned int', but variadic argument 1 has type 'HANDLE *'
+c:\users\arvind\desktop\projects\openni2\thirdparty\pscommon\xnlib\source\win32\xnusbwin32.cpp(66): warning C4313: 'sprintf_s': '%x' in format string conflicts with argument 1 of type 'HANDLE *'
+c:\users\arvind\desktop\projects\openni2\thirdparty\pscommon\xnlib\source\win32\xnusbwin32.cpp(305): warning C4477: 'sprintf_s' : format string '%x' requires an argument of type 'unsigned int', but variadic argument 1 has type 'HANDLE *'
+c:\users\arvind\desktop\projects\openni2\thirdparty\pscommon\xnlib\source\win32\xnusbwin32.cpp(305): warning C4313: 'sprintf_s': '%x' in format string conflicts with argument 1 of type 'HANDLE *'
+  XnWin32Keyboard.cpp
+  XnWin32Memory.cpp
+  XnWin32Mutex.cpp
+  XnWin32Network.cpp
+  XnWin32OS.cpp
+  XnWin32Processes.cpp
+  XnWin32Semaphore.cpp
+  XnWin32SharedLibrary.cpp
+  XnWin32SharedMemory.cpp
+  XnWin32Strings.cpp
+  XnWin32Threads.cpp
+  XnWin32Time.cpp
+c:\users\arvind\desktop\projects\openni2\thirdparty\pscommon\xnlib\source\win32\xnwin32network.cpp(135): warning C4996: 'gethostbyname': Use getaddrinfo() or GetAddrInfoW() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  c:\program files (x86)\windows kits\10\include\10.0.18362.0\um\winsock2.h(2219): note: see declaration of 'gethostbyname'
+c:\users\arvind\desktop\projects\openni2\thirdparty\pscommon\xnlib\source\win32\xnwin32network.cpp(146): warning C4996: 'inet_addr': Use inet_pton() or InetPton() instead or define _WINSOCK_DEPRECATED_NO_WARNINGS to disable deprecated API warnings
+  c:\program files (x86)\windows kits\10\include\10.0.18362.0\um\winsock2.h(1831): note: see declaration of 'inet_addr'
+  XnDump.cpp
+c:\users\arvind\desktop\projects\openni2\thirdparty\pscommon\xnlib\source\win32\xnwin32os.cpp(200): warning C4996: 'GetVersionExA': was declared deprecated
+  c:\program files (x86)\windows kits\10\include\10.0.18362.0\um\sysinfoapi.h(387): note: see declaration of 'GetVersionExA'
+  XnDumpFileWriter.cpp
+  XnFiles.cpp
+  XnFPSCalculator.cpp
+  XnLog.cpp
+  XnLogConsoleWriter.cpp
+  XnLogFileWriter.cpp
+  XnOS.cpp
+  XnOSMemoryProfiling.cpp
+  XnProfiling.cpp
+  XnScheduler.cpp
+  XnStatus.cpp
+  XnStrings.cpp
+  XnSytmmetricMatrix3x3.cpp
+  XnThreads.cpp
+  XnUSB.cpp
+  XnVector3D.cpp
+c:\users\arvind\desktop\projects\openni2\thirdparty\pscommon\xnlib\include\xnmath.h(38): warning C4244: 'return': conversion from 'double' to 'XnFloat', possible loss of data (compiling source file XnSytmmetricMatrix3x3.cpp)
+c:\users\arvind\desktop\projects\openni2\thirdparty\pscommon\xnlib\include\xnmath.h(51): warning C4244: 'return': conversion from 'double' to 'XnFloat', possible loss of data (compiling source file XnSytmmetricMatrix3x3.cpp)
+c:\users\arvind\desktop\projects\openni2\thirdparty\pscommon\xnlib\include\xnvector3d.h(174): warning C4458: declaration of 'x' hides class member (compiling source file XnSytmmetricMatrix3x3.cpp)
+  c:\users\arvind\desktop\projects\openni2\thirdparty\pscommon\xnlib\include\xnvector3d.h(36): note: see declaration of 'xnl::Point3D::x' (compiling source file XnSytmmetricMatrix3x3.cpp)
+c:\users\arvind\desktop\projects\openni2\thirdparty\pscommon\xnlib\include\xnvector3d.h(174): warning C4458: declaration of 'y' hides class member (compiling source file XnSytmmetricMatrix3x3.cpp)
+  c:\users\arvind\desktop\projects\openni2\thirdparty\pscommon\xnlib\include\xnvector3d.h(37): note: see declaration of 'xnl::Point3D::y' (compiling source file XnSytmmetricMatrix3x3.cpp)
+c:\users\arvind\desktop\projects\openni2\thirdparty\pscommon\xnlib\include\xnvector3d.h(174): warning C4458: declaration of 'z' hides class member (compiling source file XnSytmmetricMatrix3x3.cpp)
+  c:\users\arvind\desktop\projects\openni2\thirdparty\pscommon\xnlib\include\xnvector3d.h(38): note: see declaration of 'xnl::Point3D::z' (compiling source file XnSytmmetricMatrix3x3.cpp)
+c:\users\arvind\desktop\projects\openni2\thirdparty\pscommon\xnlib\source\xnsytmmetricmatrix3x3.cpp(53): warning C4244: 'initializing': conversion from 'double' to 'XnFloat', possible loss of data
+c:\users\arvind\desktop\projects\openni2\thirdparty\pscommon\xnlib\source\xnsytmmetricmatrix3x3.cpp(54): warning C4244: 'initializing': conversion from 'double' to 'XnFloat', possible loss of data
+c:\users\arvind\desktop\projects\openni2\thirdparty\pscommon\xnlib\include\xnmath.h(38): warning C4244: 'return': conversion from 'double' to 'XnFloat', possible loss of data (compiling source file XnVector3D.cpp)
+c:\users\arvind\desktop\projects\openni2\thirdparty\pscommon\xnlib\include\xnmath.h(51): warning C4244: 'return': conversion from 'double' to 'XnFloat', possible loss of data (compiling source file XnVector3D.cpp)
+c:\users\arvind\desktop\projects\openni2\thirdparty\pscommon\xnlib\include\xnvector3d.h(174): warning C4458: declaration of 'x' hides class member (compiling source file XnVector3D.cpp)
+  c:\users\arvind\desktop\projects\openni2\thirdparty\pscommon\xnlib\include\xnvector3d.h(36): note: see declaration of 'xnl::Point3D::x' (compiling source file XnVector3D.cpp)
+c:\users\arvind\desktop\projects\openni2\thirdparty\pscommon\xnlib\include\xnvector3d.h(174): warning C4458: declaration of 'y' hides class member (compiling source file XnVector3D.cpp)
+  c:\users\arvind\desktop\projects\openni2\thirdparty\pscommon\xnlib\include\xnvector3d.h(37): note: see declaration of 'xnl::Point3D::y' (compiling source file XnVector3D.cpp)
+c:\users\arvind\desktop\projects\openni2\thirdparty\pscommon\xnlib\include\xnvector3d.h(174): warning C4458: declaration of 'z' hides class member (compiling source file XnVector3D.cpp)
+  c:\users\arvind\desktop\projects\openni2\thirdparty\pscommon\xnlib\include\xnvector3d.h(38): note: see declaration of 'xnl::Point3D::z' (compiling source file XnVector3D.cpp)
+  XnLib.vcxproj -> C:\Users\Arvind\Desktop\Projects\MOMOPlugin\x64\Debug\XnLib.lib
