@@ -1,41 +1,98 @@
 #include <OpenNI.h>
 #include <Nite.h>
 
+
 using namespace openni;
 using namespace nite;
 
 
-int main()
-{
-	openni::Status rc = OpenNI::initialize();
-	nite::Status nc = NiTE::initialize();
+Device device;
+HandTracker handTracker;
+bool shouldExit = false;
 
-	if (rc != openni::Status::STATUS_OK)
+
+int Setup()
+{
+	openni::Status opennistatus = OpenNI::initialize();
+
+	if (opennistatus != openni::Status::STATUS_OK)
 	{
 		printf("Initialize failed\n%s\n", OpenNI::getExtendedError());
 		return 1;
 	}
 
-	Device device;
-	rc = device.open(ANY_DEVICE);
-	if (rc != openni::Status::STATUS_OK)
+	opennistatus = device.open(ANY_DEVICE);
+
+	if (opennistatus != openni::Status::STATUS_OK)
 	{
-		printf("Couldn't open device\n%s\n", OpenNI::getExtendedError());
-		return 2;
+		printf("Unable to open device");
+		return 1;
 	}
 
-	HandTracker* handTracker = new HandTracker();
+	VideoStream depth;
 
-	nc = handTracker->create(&device);
+	if (device.getSensorInfo(SENSOR_DEPTH) != NULL)
+	{
+		opennistatus = depth.create(device, SENSOR_DEPTH);
+		if (opennistatus != openni::Status::STATUS_OK)
+		{
+			printf("Couldn't create depth stream\n%s\n", OpenNI::getExtendedError());
+			return 3;
+		}
+	}
 
-	handTracker->startGestureDetection(GestureType::GESTURE_WAVE);
+	opennistatus = depth.start();
+	if (opennistatus != openni::Status::STATUS_OK)
+	{
+		printf("Couldn't start the depth stream\n%s\n", OpenNI::getExtendedError());
+		return 4;
+	}
+	
+	nite::Status nitestatus = NiTE::initialize();
+	
+	nitestatus = handTracker.create(&device);
+
+	handTracker.startGestureDetection(GestureType::GESTURE_WAVE);
+
+	return 0;
+}
+
+void Update()
+{
+
+}
+
+void Draw()
+{
+
+}
+
+void Exit()
+{
+	handTracker.stopGestureDetection(GestureType::GESTURE_WAVE);
 
 	device.close();
-	
+
 	nite::NiTE::shutdown();
 	openni::OpenNI::shutdown();
+}
 
-	delete handTracker;
+int main()
+{
+	Setup();
+
+	while (!shouldExit)
+	{
+		Update();
+		Draw();
+
+		if (GetKeyState(VK_ESCAPE) & 0x8000)
+		{
+			shouldExit = true;
+		}
+	}
+	
+	Exit();
 
 	return 0;
 }
