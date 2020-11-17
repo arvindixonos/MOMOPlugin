@@ -4,16 +4,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.28307.1300
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MOMOPlugin", "MOMOPlugin\MOMOPlugin.vcxproj", "{43F01EA0-05C5-4199-B7C8-91921A52715A}"
-	ProjectSection(ProjectDependencies) = postProject
-		{72D595BB-8C52-449B-91DB-0E9F6AEAF53A} = {72D595BB-8C52-449B-91DB-0E9F6AEAF53A}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenNI", "..\OpenNI2\Source\Core\OpenNI.vcxproj", "{72D595BB-8C52-449B-91DB-0E9F6AEAF53A}"
-	ProjectSection(ProjectDependencies) = postProject
-		{72D595BB-8C52-449B-91DB-0E9F6AEAF5BB} = {72D595BB-8C52-449B-91DB-0E9F6AEAF5BB}
-	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XnLib", "..\OpenNI2\ThirdParty\PSCommon\XnLib\Source\XnLib.vcxproj", "{72D595BB-8C52-449B-91DB-0E9F6AEAF5BB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,22 +21,6 @@ Global
 		{43F01EA0-05C5-4199-B7C8-91921A52715A}.Release|x64.Build.0 = Release|x64
 		{43F01EA0-05C5-4199-B7C8-91921A52715A}.Release|x86.ActiveCfg = Release|Win32
 		{43F01EA0-05C5-4199-B7C8-91921A52715A}.Release|x86.Build.0 = Release|Win32
-		{72D595BB-8C52-449B-91DB-0E9F6AEAF53A}.Debug|x64.ActiveCfg = Debug|x64
-		{72D595BB-8C52-449B-91DB-0E9F6AEAF53A}.Debug|x64.Build.0 = Debug|x64
-		{72D595BB-8C52-449B-91DB-0E9F6AEAF53A}.Debug|x86.ActiveCfg = Debug|Win32
-		{72D595BB-8C52-449B-91DB-0E9F6AEAF53A}.Debug|x86.Build.0 = Debug|Win32
-		{72D595BB-8C52-449B-91DB-0E9F6AEAF53A}.Release|x64.ActiveCfg = Release|x64
-		{72D595BB-8C52-449B-91DB-0E9F6AEAF53A}.Release|x64.Build.0 = Release|x64
-		{72D595BB-8C52-449B-91DB-0E9F6AEAF53A}.Release|x86.ActiveCfg = Release|Win32
-		{72D595BB-8C52-449B-91DB-0E9F6AEAF53A}.Release|x86.Build.0 = Release|Win32
-		{72D595BB-8C52-449B-91DB-0E9F6AEAF5BB}.Debug|x64.ActiveCfg = Debug|x64
-		{72D595BB-8C52-449B-91DB-0E9F6AEAF5BB}.Debug|x64.Build.0 = Debug|x64
-		{72D595BB-8C52-449B-91DB-0E9F6AEAF5BB}.Debug|x86.ActiveCfg = Debug|Win32
-		{72D595BB-8C52-449B-91DB-0E9F6AEAF5BB}.Debug|x86.Build.0 = Debug|Win32
-		{72D595BB-8C52-449B-91DB-0E9F6AEAF5BB}.Release|x64.ActiveCfg = Release|x64
-		{72D595BB-8C52-449B-91DB-0E9F6AEAF5BB}.Release|x64.Build.0 = Release|x64
-		{72D595BB-8C52-449B-91DB-0E9F6AEAF5BB}.Release|x86.ActiveCfg = Release|Win32
-		{72D595BB-8C52-449B-91DB-0E9F6AEAF5BB}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
