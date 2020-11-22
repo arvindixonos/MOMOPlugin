@@ -1,23 +1,31 @@
 #pragma once
 #include <boost/array.hpp>
+
+#include "Service.h"
 #include "Constants.h"
 
 namespace MOMO
 {
-	class StabilityCheckService
+	class StabilityCheckService : public Service
 	{
 	public:
 		StabilityCheckService();
 		~StabilityCheckService();
 		
+		void InitStartService();
+		void UpdateService();
+		void StopService();
+
 		void Init(voidcallback deviceStable_cb, voidcallback  deviceUnstable_cb);
 		void Deinit();
 
-		void ResetAll();
+		void ResetAllCounters();
 		void ResetRateCounter();
 		void ResetAccumulators();
 
-		void Update();
+		bool isPaused() const { return pause; }
+		void Pause() { pause = true; }
+		void Unpause() { pause = false; }
 
 	private:
 		boost::array<double, 3> previousAccValues;
@@ -29,5 +37,7 @@ namespace MOMO
 		double accDeviationX;
 		double accDeviationY;
 		double accDeviationZ;
+
+		bool pause;
 	};
 }

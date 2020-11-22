@@ -7,7 +7,6 @@
 
 MOMO::StabilityCheckService::StabilityCheckService()
 {
-	ResetAll();
 }
 
 MOMO::StabilityCheckService::~StabilityCheckService()
@@ -15,16 +14,35 @@ MOMO::StabilityCheckService::~StabilityCheckService()
 
 }
 
+void MOMO::StabilityCheckService::InitStartService()
+{
+	started = true;
+
+	ResetAllCounters();
+}
+
+void MOMO::StabilityCheckService::StopService()
+{
+	Deinit();
+
+	started = false;
+}
+
 void MOMO::StabilityCheckService::Init(voidcallback deviceStable_cb, voidcallback  deviceUnstable_cb)
 {
 	deviceStableCallback = deviceStable_cb;
 	deviceUnstableCallback = deviceUnstable_cb;
 
-	TimerCBManager::getInstance()->AddCallback("Stability Check Update", boost::bind(&StabilityCheckService::Update, this), STABLITY_SERVICE_UPDATE_RATE);
+	TimerCBManager::getInstance()->AddCallback("Stability Check Update", boost::bind(&StabilityCheckService::UpdateService, this), STABLITY_SERVICE_UPDATE_RATE);
 }
 
-void MOMO::StabilityCheckService::Update()
+void MOMO::StabilityCheckService::UpdateService()
 {
+	if (pause)
+	{
+		return;
+	}
+
 	MOMOManager::getInstance()->UpdateTiltState();
 
 	boost::array<double, 3> accValues = MOMOManager::getInstance()->GetAccelerometerValues();
@@ -61,7 +79,7 @@ void MOMO::StabilityCheckService::Update()
 				}
 			}
 
-			ResetAll();
+			ResetAllCounters();
 		}	
 	}
 	else
@@ -84,12 +102,12 @@ void MOMO::StabilityCheckService::Update()
 				}
 			}
 
-			ResetAll();
+			ResetAllCounters();
 		}
 	}
 }
 
-void MOMO::StabilityCheckService::ResetAll()
+void MOMO::StabilityCheckService::ResetAllCounters()
 {
 	ResetAccumulators();
 	ResetRateCounter();
@@ -97,7 +115,7 @@ void MOMO::StabilityCheckService::ResetAll()
 
 void MOMO::StabilityCheckService::Deinit()
 {
-	ResetAll();
+	ResetAllCounters();
 
 	TimerCBManager::getInstance()->RemoveCallback("Stability Check Update");
 }

@@ -15,8 +15,8 @@
 //#include <libusb.h>
 //#include <libfreenect.h>
 //#include <libfreenect_sync.h>
-#include <boost/shared_ptr.hpp>
-#include <boost/bind.hpp>
+//#include <boost/shared_ptr.hpp>
+//#include <boost/bind.hpp>
 
 
 #ifdef BOOST_OS_WINDOWS
@@ -27,14 +27,14 @@
 #endif
 #endif
 
-//#include "MOMOManager.h"
+#include "MOMOManager.h"
 
 //using namespace openni;
 //using namespace nite;
 //using namespace pcl;
 //using namespace pcl::io::openni2;
-using namespace boost;
-//using namespace MOMO;
+//using namespace boost;
+using namespace MOMO;
 
 
 // VID and PID for Kinect and motor/acc/leds
@@ -43,8 +43,8 @@ using namespace boost;
 #define FREENECT_COUNTS_PER_G 819.
 #define GRAVITY 9.80665
 
-//boost::shared_ptr<MOMOManager> momoManager = nullptr;
-//double currentDt = 0.0;
+boost::shared_ptr<MOMOManager> momoManager = nullptr;
+double currentDt = 0.0;
 //
 //boost::shared_ptr<Device> openniDevice;
 //boost::shared_ptr<pcl::io::OpenNI2Grabber> openni2Grabber;
@@ -97,19 +97,19 @@ using namespace boost;
 //raw_tilt_state tilt_state;
 //libusb_context* ctx;
 
-void cloud_cb_(const PointCloud<PointXYZ>::ConstPtr &cloud)
-{
-	/*boost::mutex::scoped_lock lock(cloudReadMutex);
-	cloudBuffer = cloud->makeShared();
-
-	framecounter++;*/
-	//std::cout << "Got Frame: "<<framecounter<<"\n";
-}
+//void cloud_cb_(const PointCloud<PointXYZ>::ConstPtr &cloud)
+//{
+//	/*boost::mutex::scoped_lock lock(cloudReadMutex);
+//	cloudBuffer = cloud->makeShared();
+//
+//	framecounter++;*/
+//	//std::cout << "Got Frame: "<<framecounter<<"\n";
+//}
 
 int Setup()
 {
-	/*momoManager = MOMOManager::getInstance();
-	momoManager->Init();*/
+	momoManager = MOMOManager::getInstance();
+	momoManager->Init();
 
 	//freenect_context *f_ctx;
 	//freenect_device *f_dev;
@@ -134,7 +134,7 @@ int Setup()
 
 	freenect_sync_set_tilt_degs(0, 0);*/
 
-	openni::Status opennistatus = OpenNI::initialize();
+	/*openni::Status opennistatus = OpenNI::initialize();
 
 	openniDevice = boost::make_shared<openni::Device>();
 
@@ -156,7 +156,7 @@ int Setup()
 	openni2Grabber = boost::make_shared<pcl::io::OpenNI2Grabber>(device_id);
 
 	
-	boost::function<void(const PointCloud<PointXYZ>::ConstPtr&)> f = boost::bind(cloud_cb_, _1);
+	boost::function<void(const PointCloud<PointXYZ>::ConstPtr&)> f = boost::bind(cloud_cb_, _1);*/
 	
 	/*
 	seg.setOptimizeCoefficients(true);
@@ -210,7 +210,7 @@ int Setup()
 
 void Update()
 {
-	//momoManager->Update(currentDt);
+	momoManager->Update(currentDt);
 }
 
 void Exit()
@@ -225,7 +225,7 @@ void Exit()
 
 	openni::OpenNI::shutdown();*/
 
-	//momoManager->Exit();
+	momoManager->Exit();
 }
 
 
@@ -258,12 +258,12 @@ int main()
 
 	boost::chrono::steady_clock::time_point startTime = boost::chrono::steady_clock::now();
 
-	//while (!momoManager->isStopped()) 
+	while (!momoManager->isStopped()) 
 	{
 		boost::chrono::steady_clock::time_point endTime = boost::chrono::steady_clock::now();
 		boost::chrono::duration<double> sec = endTime - startTime;
 		
-		//currentDt = sec.count();
+		currentDt = sec.count();
 
 		startTime = endTime;
 

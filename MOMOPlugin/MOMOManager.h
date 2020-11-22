@@ -13,6 +13,7 @@
 #include <pcl/visualization/pcl_visualizer.h>
 #include "StateMachine.h"
 #include "StabilityCheckService.h"
+#include "CalibrationService.h"
 
 using namespace pcl;
 
@@ -24,6 +25,9 @@ namespace MOMO
 		static boost::shared_ptr<MOMOManager> getInstance();
 
 		void Init();
+
+		void SwitchToCalibrationMode();
+		void SwitchToGameMode();
 
 		void InitOpenNIGrabber();
 
@@ -55,6 +59,12 @@ namespace MOMO
 		bool isDeviceStable() const { return deviceStable; }
 		void DeviceStable();
 		void DeviceUnstable();
+	
+		bool isCalibrating() { return calibrationMode; }
+
+		void StartCalibrationService();
+		void StopCalibrationService();
+
 
 		MOMOManager();
 		~MOMOManager();
@@ -67,8 +77,10 @@ namespace MOMO
 
 		boost::shared_ptr<StateMachine> momoStateMachine;
 		boost::shared_ptr <visualization::PCLVisualizer> pclVisualizer;
+
 		boost::shared_ptr<StabilityCheckService> stabilityCheckService;
-		
+		boost::shared_ptr<CalibrationService> calibrationService;
+
 		double currentDT;
 
 		bool deviceStable;
@@ -76,5 +88,6 @@ namespace MOMO
 		boost::shared_ptr<openni::Device> openniDevice;
 		boost::shared_ptr<pcl::io::OpenNI2Grabber> openni2Grabber;
 
+		bool calibrationMode;
 	};
 }
