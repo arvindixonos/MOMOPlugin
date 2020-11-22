@@ -23,7 +23,10 @@ namespace MOMO
 		void Unpause() { paused = false; }
 
 		bool isStarted() const { return started; }
-		bool isRunning() const { return (started & !paused); }
+		bool isRunning() const 
+		{ 
+			return started; 
+		}
 
 	protected:
 		bool started;

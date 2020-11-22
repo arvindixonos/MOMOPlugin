@@ -3,6 +3,8 @@
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
 
+#define  CALIBRATION_MODE 1
+
 #define GAME_WINDOW_SIZE_X 1280
 #define GAME_WINDOW_SIZE_Y 720
 

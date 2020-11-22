@@ -36,8 +36,6 @@ void MOMOManager::Init()
 {
 	InitOpenNIGrabber();
 
-	InitVisualizer();
-
 	InitStateMachine();
 	
 	//Initfreenect();
@@ -47,6 +45,15 @@ void MOMOManager::Init()
 	AddDeviceStates();
 
 	momoStateMachine->ChangeState(eMOMOStates::STATE_STABILITY);
+
+	if (CALIBRATION_MODE)
+	{
+		SwitchToCalibrationMode();
+	}
+	else
+	{
+		SwitchToGameMode();
+	}
 }
 
 void MOMOManager::Initfreenect()
@@ -108,12 +115,6 @@ void MOMOManager::AddDeviceStates()
 	momoStateMachine->AddNewState(eMOMOStates::STATE_WALL_IDENTIFICATION, boost::make_shared<State_Wall_Identification>());
 }
 
-int ia = 0;
-void CloudAvailablea(const PointCloud<PointXYZ>::ConstPtr &cloud)
-{
-	printf("Color AAAA %d: \n", ia++);
-}
-
 void MOMOManager::InitOpenNIGrabber()
 {
 	openni::Status opennistatus = OpenNI::initialize();
@@ -151,25 +152,16 @@ void MOMO::MOMOManager::CloudAvailable(const PointCloud<PointXYZ>::ConstPtr &clo
 	std::cout << "Got Frame: " << "\n";
 }
 
-void MOMOManager::StopCalibrationService()
-{
-	calibrationService->StopService();
-}
-
-void MOMOManager::StartCalibrationService()
-{
-	calibrationService->InitStartService();
-}
-
 void MOMOManager::SwitchToCalibrationMode()
 {
 	if (!isCalibrating())
 	{
 		calibrationMode = true;
 
-		pclVisualizer->close();
+		if(pclVisualizer)
+			pclVisualizer->close();
 
-		StartCalibrationService();
+		calibrationService->InitStartService();
 	}
 }
 
@@ -177,12 +169,11 @@ void MOMOManager::SwitchToGameMode()
 {
 	if (isCalibrating())
 	{
-		
-
 		calibrationMode = false;
-		pclVisualizer->close();
 
-		StartCalibrationService();
+		InitVisualizer();
+
+		calibrationService->StopService();
 	}
 }
 
@@ -252,7 +243,7 @@ bool MOMOManager::isStopped()
 {
 	if (calibrationMode)
 	{
-		return calibrationService->isRunning();
+		return !calibrationService->isRunning();
 	}
 
 	return pclVisualizer->wasStopped();

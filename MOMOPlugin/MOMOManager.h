@@ -62,10 +62,6 @@ namespace MOMO
 	
 		bool isCalibrating() { return calibrationMode; }
 
-		void StartCalibrationService();
-		void StopCalibrationService();
-
-
 		MOMOManager();
 		~MOMOManager();
 
