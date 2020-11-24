@@ -11,6 +11,7 @@ using namespace MOMO;
 using namespace pcl;
 using namespace openni;
 
+
 boost::shared_ptr<MOMOManager> MOMOManager::instance = nullptr;
 
 boost::shared_ptr<MOMOManager> MOMOManager::getInstance()
@@ -23,6 +24,16 @@ boost::shared_ptr<MOMOManager> MOMOManager::getInstance()
 	return instance;
 }
 
+void keyboardEventOccurred(const pcl::visualization::KeyboardEvent &event, void* viewer_void)
+{
+
+}
+
+void mouseEventOccurred(const pcl::visualization::MouseEvent &event, void* viewer_void)
+{
+}
+
+
 MOMOManager::MOMOManager()
 {
 	
@@ -34,6 +45,8 @@ MOMOManager::~MOMOManager()
 
 void MOMOManager::Init()
 {
+	InitBuffers();
+
 	InitOpenNIGrabber();
 
 	InitStateMachine();
@@ -91,6 +104,8 @@ void MOMOManager::InitVisualizer()
 	pclVisualizer->setPointCloudRenderingProperties(visualization::PCL_VISUALIZER_POINT_SIZE, 1);
 	pclVisualizer->setPosition(0, 0);
 	pclVisualizer->setSize(GAME_WINDOW_SIZE_X, GAME_WINDOW_SIZE_Y);
+	pclVisualizer->registerKeyboardCallback(keyboardEventOccurred, (void*)&pclVisualizer);
+	pclVisualizer->registerMouseCallback(mouseEventOccurred, (void*)&pclVisualizer);
 }
 
 void MOMOManager::InitStateMachine()
@@ -136,20 +151,45 @@ void MOMOManager::InitOpenNIGrabber()
 
 	const std::string device_id = openniDevice->getDeviceInfo().getUri();
 	openni2Grabber = boost::make_shared<pcl::io::OpenNI2Grabber>(device_id);
-	boost::function<void(const PointCloud<PointXYZ>::ConstPtr&)> f = boost::bind(&MOMOManager::CloudAvailable, this, _1);
+	boost::function<void(const PointCloud<PointXYZ>::ConstPtr&)> cloudCallbackfnPtr = boost::bind(&MOMOManager::CloudAvailable, this, _1);
+	boost::function<void(const boost::shared_ptr<pcl::io::openni2::Image>&) > colorImageCallbackfnPtr = boost::bind(&MOMOManager::ColorImageAvailable, this, _1);
+	boost::function<void(const boost::shared_ptr<pcl::io::openni2::DepthImage>&) > depthImageCallbackfnPtr = boost::bind(&MOMOManager::DepthImageAvailable, this, _1);
 
-	openni2Grabber->registerCallback(f);
+	openni2Grabber->registerCallback(cloudCallbackfnPtr);
+	openni2Grabber->registerCallback(colorImageCallbackfnPtr);
+	openni2Grabber->registerCallback(depthImageCallbackfnPtr);
 	openni2Grabber->start();
 }
 
 
 void MOMO::MOMOManager::CloudAvailable(const PointCloud<PointXYZ>::ConstPtr &cloud)
 {
-	/*boost::mutex::scoped_lock lock(cloudReadMutex);
+	boost::mutex::scoped_lock lock(cloudMutex);
 	cloudBuffer = cloud->makeShared();
 
-	framecounter++;*/
-	std::cout << "Got Frame: " << "\n";
+	//std::cout << "Got Frame: " << "\n";
+}
+
+void MOMOManager::DepthImageAvailable(const boost::shared_ptr<pcl::io::openni2::DepthImage>& depthImage)
+{
+	if (depthImage)
+	{
+		boost::mutex::scoped_lock lock(depthImageMutex);
+		depthImageBuffer = depthImage;
+		depthImageBuffer->fillDepthImageRaw(depthImageBuffer->getWidth(), depthImageBuffer->getHeight(), depthData);
+		depthMat.data = (uchar*)depthData;
+	}
+}
+
+void MOMOManager::ColorImageAvailable(const boost::shared_ptr<pcl::io::openni2::Image>& colorImage)
+{
+	if (colorImage)
+	{
+		boost::mutex::scoped_lock lock(colorImageMutex);
+		colorImageBuffer = colorImage;
+		colorImageBuffer->fillRGB(colorImageBuffer->getWidth(), colorImageBuffer->getHeight(), rgbData);
+		rgbMat.data = rgbData;
+	}
 }
 
 void MOMOManager::SwitchToCalibrationMode()
@@ -167,14 +207,23 @@ void MOMOManager::SwitchToCalibrationMode()
 
 void MOMOManager::SwitchToGameMode()
 {
-	if (isCalibrating())
-	{
-		calibrationMode = false;
+	calibrationMode = false;
 
-		InitVisualizer();
+	InitVisualizer();
 
+	if(calibrationService->isRunning())
 		calibrationService->StopService();
-	}
+}
+
+void MOMOManager::InitBuffers()
+{
+	rgbDataSize = KINECT_RGB_WIDTH * KINECT_RGB_HEIGHT;
+	rgbData = new unsigned char[rgbDataSize * 3];
+	rgbMat = cv::Mat(KINECT_RGB_HEIGHT, KINECT_RGB_WIDTH, CV_8UC3);
+
+	depthDataSize = KINECT_DEPTH_WIDTH * KINECT_DEPTH_HEIGHT;
+	depthData = new unsigned short[depthDataSize];
+	depthMat = cv::Mat(KINECT_DEPTH_HEIGHT, KINECT_DEPTH_WIDTH, CV_8UC1);
 }
 
 void MOMO::MOMOManager::Update(double dt)
@@ -185,6 +234,28 @@ void MOMO::MOMOManager::Update(double dt)
 
 	TimerCBManager::getInstance()->UpdateCallbacks();
 	
+	boost::shared_ptr<pcl::io::openni2::Image> image;
+	boost::shared_ptr<pcl::io::openni2::DepthImage> depthImage;
+	PointCloud<PointXYZ>::ConstPtr cloud;
+
+	if (cloudMutex.try_lock())
+	{
+		cloudBuffer.swap(cloud);
+		cloudMutex.unlock();
+	}
+
+	if (colorImageMutex.try_lock())
+	{
+		colorImageBuffer.swap(image);
+		colorImageMutex.unlock();
+	}
+
+	if (depthImageMutex.try_lock())
+	{
+		depthImageBuffer.swap(depthImage);
+		depthImageMutex.unlock();
+	}
+
 	if (isCalibrating())
 	{
 		calibrationService->UpdateService();

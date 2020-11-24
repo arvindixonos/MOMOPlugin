@@ -5,7 +5,10 @@
 #include <pcl/point_types.h>
 #include <pcl/io/pcd_io.h>
 #include <pcl/io/openni2_grabber.h>
+#include <pcl/io/openni2/openni.h>
+#include <pcl/io/image.h>
 #include <boost/array.hpp>
+#include <boost/thread/mutex.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/noncopyable.hpp>
 #include <libfreenect.h>
@@ -16,6 +19,7 @@
 #include "CalibrationService.h"
 
 using namespace pcl;
+using namespace pcl::io::openni2;
 
 namespace MOMO
 {
@@ -25,6 +29,8 @@ namespace MOMO
 		static boost::shared_ptr<MOMOManager> getInstance();
 
 		void Init();
+
+		void InitBuffers();
 
 		void SwitchToCalibrationMode();
 		void SwitchToGameMode();
@@ -55,6 +61,8 @@ namespace MOMO
 		double getDT() const { return currentDT; }
 
 		void CloudAvailable(const PointCloud<PointXYZ>::ConstPtr &cloud);
+		void ColorImageAvailable(const boost::shared_ptr<pcl::io::openni2::Image>& colorImage);
+		void DepthImageAvailable(const boost::shared_ptr<pcl::io::openni2::DepthImage>& depthImage);
 
 		bool isDeviceStable() const { return deviceStable; }
 		void DeviceStable();
@@ -62,9 +70,14 @@ namespace MOMO
 	
 		bool isCalibrating() { return calibrationMode; }
 
+		unsigned char* GetRGBData() const { return rgbData; }
+		cv::Mat GetRGBMat() const { return rgbMat; }
+
+		unsigned short* GetDepthData() const { return depthData; }
+		cv::Mat GetDepthMat() const { return depthMat; }
+
 		MOMOManager();
 		~MOMOManager();
-
 	private:
 		static boost::shared_ptr<MOMOManager> instance;
 
@@ -85,5 +98,21 @@ namespace MOMO
 		boost::shared_ptr<pcl::io::OpenNI2Grabber> openni2Grabber;
 
 		bool calibrationMode;
+
+		boost::mutex colorImageMutex;
+		boost::shared_ptr<pcl::io::openni2::Image> colorImageBuffer;
+		unsigned char* rgbData;
+		cv::Mat rgbMat;
+		int rgbDataSize;
+
+		boost::mutex depthImageMutex;
+		boost::shared_ptr<pcl::io::openni2::DepthImage> depthImageBuffer;
+		unsigned short* depthData;
+		cv::Mat depthMat;
+		int depthDataSize;
+
+		boost::mutex cloudMutex;
+		PointCloud<PointXYZ>::ConstPtr cloudBuffer;
+
 	};
 }
