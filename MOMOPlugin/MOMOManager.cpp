@@ -168,6 +168,36 @@ void MOMO::MOMOManager::CloudAvailable(const PointCloud<PointXYZ>::ConstPtr &clo
 	cloudBuffer = cloud->makeShared();
 
 	//std::cout << "Got Frame: " << "\n";
+
+
+	//if (cloudMutex.try_lock())
+	//{
+	//	//cloudBuffer.swap(cloud);
+	//	cloudMutex.unlock();
+	//}
+
+}
+
+cv::Mat MOMOManager::GetRGBMat()
+{
+	if (cloudMutex.try_lock())
+	{
+		//cloudBuffer.swap(cloud);
+		cloudMutex.unlock();
+	}
+
+	/*if (colorImageMutex.try_lock())
+	{
+		colorImageMutex.unlock();
+		return rgbMat;
+	}*/
+
+	//if (colorImageMutex.try_lock())
+	//{
+		return rgbMat;
+	//}
+
+	//return NULL;
 }
 
 void MOMOManager::DepthImageAvailable(const boost::shared_ptr<pcl::io::openni2::DepthImage>& depthImage)
@@ -185,10 +215,14 @@ void MOMOManager::ColorImageAvailable(const boost::shared_ptr<pcl::io::openni2::
 {
 	if (colorImage)
 	{
-		boost::mutex::scoped_lock lock(colorImageMutex);
+		boost::unique_lock<boost::mutex> scoped_lock(colorImageMutex);
 		colorImageBuffer = colorImage;
 		colorImageBuffer->fillRGB(colorImageBuffer->getWidth(), colorImageBuffer->getHeight(), rgbData);
-		rgbMat.data = rgbData;
+		/*memcpy(rgbMat.data, rgbData, sizeof(rgbData));
+		cv::flip(rgbMat, rgbMat, 1);*/
+		cv::Mat tempRGBMat = cv::Mat(KINECT_RGB_HEIGHT, KINECT_RGB_WIDTH, CV_8UC3, rgbData);
+		cv::cvtColor(tempRGBMat, tempRGBMat, cv::COLOR_RGB2BGR);
+		cv::flip(tempRGBMat, rgbMat, 1);
 	}
 }
 
@@ -224,6 +258,8 @@ void MOMOManager::InitBuffers()
 	depthDataSize = KINECT_DEPTH_WIDTH * KINECT_DEPTH_HEIGHT;
 	depthData = new unsigned short[depthDataSize];
 	depthMat = cv::Mat(KINECT_DEPTH_HEIGHT, KINECT_DEPTH_WIDTH, CV_8UC1);
+
+
 }
 
 void MOMO::MOMOManager::Update(double dt)
@@ -233,28 +269,24 @@ void MOMO::MOMOManager::Update(double dt)
 	momoStateMachine->Update();
 
 	TimerCBManager::getInstance()->UpdateCallbacks();
-	
-	boost::shared_ptr<pcl::io::openni2::Image> image;
-	boost::shared_ptr<pcl::io::openni2::DepthImage> depthImage;
-	PointCloud<PointXYZ>::ConstPtr cloud;
 
-	if (cloudMutex.try_lock())
-	{
-		cloudBuffer.swap(cloud);
-		cloudMutex.unlock();
-	}
+	//if (cloudMutex.try_lock())
+	//{
+	//	//cloudBuffer.swap(cloud);
+	//	cloudMutex.unlock();
+	//}
 
-	if (colorImageMutex.try_lock())
-	{
-		colorImageBuffer.swap(image);
-		colorImageMutex.unlock();
-	}
+	//if (colorImageMutex.try_lock())
+	//{
+	//	colorImageBuffer.swap(image);
+	//	colorImageMutex.unlock();
+	//}
 
-	if (depthImageMutex.try_lock())
-	{
-		depthImageBuffer.swap(depthImage);
-		depthImageMutex.unlock();
-	}
+	//if (depthImageMutex.try_lock())
+	//{
+	//	depthImageBuffer.swap(depthImage);
+	//	depthImageMutex.unlock();
+	//}
 
 	if (isCalibrating())
 	{

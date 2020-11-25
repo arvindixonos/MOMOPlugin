@@ -1,24 +1,3 @@
-//#include <OpenNI.h>
-//#include <Nite.h>
-//#include <pcl/point_cloud.h>
-//#include <pcl/point_types.h>
-//#include <pcl/io/pcd_io.h>
-//#include <pcl/io/openni2_grabber.h>
-//#include <pcl/io/openni2/openni2_device_manager.h>
-//#include <pcl/common/time.h>
-//#include <pcl/segmentation/sac_segmentation.h>
-//#include <pcl/visualization/pcl_visualizer.h>
-//#include <pcl/visualization/cloud_viewer.h>
-//#include <pcl/filters/extract_indices.h>
-//#include <pcl/filters/voxel_grid.h>
-//#include <pcl/common/transforms.h>
-//#include <libusb.h>
-//#include <libfreenect.h>
-//#include <libfreenect_sync.h>
-//#include <boost/shared_ptr.hpp>
-//#include <boost/bind.hpp>
-
-
 #ifdef BOOST_OS_WINDOWS
 #define _WIN32_WINNT 0x0501
 #if _WIN32_WINNT <= 0x0501

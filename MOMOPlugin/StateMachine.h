@@ -4,9 +4,6 @@
 #include <boost/shared_ptr.hpp>
 #include "State.h"
 
-using namespace boost;
-using namespace std;
-
 namespace MOMO
 {
 	enum eMOMOStates

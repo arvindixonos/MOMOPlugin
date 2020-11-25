@@ -6,22 +6,13 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 #include <opencv2/core/types.hpp>
-#include "InteractionHandler.h"
 #include <boost//signals2/signal.hpp>
 #include <boost/container/vector.hpp>
 #include <boost/shared_ptr.hpp>
-#include <pcl/point_types.h>
-#include <pcl/visualization/pcl_painter2D.h>
-#include <pcl/visualization/mouse_event.h>
-#include <vtkObject.h>
-#include <vtkRenderer.h>
-#include <vtkRenderWindow.h>
-#include <vtkSmartPointer.h>
-#include <vtkCallbackCommand.h>
-#include <vtkGenericRenderWindowInteractor.h>
+#include <Eigen/Core>
 
+#include "InteractionHandler.h"
 
-using namespace pcl;
 
 namespace MOMO
 {
@@ -36,7 +27,7 @@ namespace MOMO
 		void StopService();
 
 
-		void DrawChessboard(int x, int y, int chessboardSize);
+		void DrawChessboard(int x, int y);
 		void DrawTestingPoint(Eigen::Vector2f projectedPoint);
 		void AddPointPair();
 
@@ -44,18 +35,28 @@ namespace MOMO
 		void StartTesting() { testing = true; }
 		void StopTesting() { testing = false; }
 
+		static void MouseCallback(int event, int x, int y, int flags, void* userdata);
+		void MouseCallback_P(int event, int x, int y, int flags, void* userdata);
+
+		void MouseDown(int x, int y);
+
+		void MouseUp(int x, int y);
+
+		void MouseMove(int x, int y);
+
+		bool shouldDrawIndicator();
+
 	private:
-		boost::shared_ptr <visualization::PCLPainter2D> uiPainter;
-		vtkRenderWindow* uiWindow;
-		vtkRenderer* uiRenderer;
-
-		boost::shared_ptr <visualization::PCLPainter2D> projectorPainter;
-		vtkRenderWindow* projectorWindow;
-		vtkRenderer* projectorRenderer;
-
-		InteractionHandler* uiWindowInteractionHandler;
-
 		//ofxCvColorImage             rgbImage;
+
+		bool mouseDown;
+		cv::Point mousePoint;
+
+		cv::String uiWindowName;
+		cv::Mat uiMat;
+
+		cv::String projectorWindowName;
+		cv::Mat projectorMat;
 
 		boost::container::vector<Eigen::Vector2f>             currentProjectorPoints;
 		std::vector<cv::Point2f>			cvPoints;
@@ -73,8 +74,5 @@ namespace MOMO
 		bool                        saved;
 
 		bool						foundChessboard;
-	
-
-		vtkCallbackCommand *PassiveEventCallbackCommand;
 	};
 }

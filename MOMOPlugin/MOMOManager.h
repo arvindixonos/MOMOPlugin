@@ -8,7 +8,7 @@
 #include <pcl/io/openni2/openni.h>
 #include <pcl/io/image.h>
 #include <boost/array.hpp>
-#include <boost/thread/mutex.hpp>
+//#include <boost/thread/mutex.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/noncopyable.hpp>
 #include <libfreenect.h>
@@ -71,7 +71,7 @@ namespace MOMO
 		bool isCalibrating() { return calibrationMode; }
 
 		unsigned char* GetRGBData() const { return rgbData; }
-		cv::Mat GetRGBMat() const { return rgbMat; }
+		cv::Mat GetRGBMat();
 
 		unsigned short* GetDepthData() const { return depthData; }
 		cv::Mat GetDepthMat() const { return depthMat; }

@@ -3,11 +3,8 @@
 #include <boost/container/map.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/noncopyable.hpp>
-#include <boost/thread.hpp>
 
 #include "Constants.h"
-
-//using namespace ;
 
 namespace MOMO
 {
