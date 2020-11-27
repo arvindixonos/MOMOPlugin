@@ -16,20 +16,27 @@ c:\program files\pcl 1.9.1\include\pcl-1.9\pcl\visualization\pcl_visualizer.h(20
 c:\program files\pcl 1.9.1\include\pcl-1.9\pcl\visualization\pcl_visualizer.h(2041): warning C4275: non dll-interface class 'vtkCommand' used as base for dll-interface struct 'pcl::visualization::PCLVisualizer::FPSCallback'
   c:\program files\pcl 1.9.1\3rdparty\vtk\include\vtk-8.1\vtkcommand.h(360): note: see declaration of 'vtkCommand'
   c:\program files\pcl 1.9.1\include\pcl-1.9\pcl\visualization\pcl_visualizer.h(2040): note: see declaration of 'pcl::visualization::PCLVisualizer::FPSCallback'
-c:\program files\pcl 1.9.1\include\pcl-1.9\pcl\visualization\cloud_viewer.h(53): warning C4275: non dll-interface class 'boost::noncopyable_::noncopyable' used as base for dll-interface class 'pcl::visualization::CloudViewer'
-  c:\program files\pcl 1.9.1\3rdparty\boost\boost_1_70_0\boost\core\noncopyable.hpp(38): note: see declaration of 'boost::noncopyable_::noncopyable'
-  c:\program files\pcl 1.9.1\include\pcl-1.9\pcl\visualization\cloud_viewer.h(52): note: see declaration of 'pcl::visualization::CloudViewer'
-c:\program files\libusb-1.0.23\include\libusb-1.0\libusb.h(741): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  c:\program files\libusb-1.0.23\include\libusb-1.0\libusb.h(741): note: This member will be ignored by a defaulted constructor or copy/move assignment operator
-c:\program files\libusb-1.0.23\include\libusb-1.0\libusb.h(766): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  c:\program files\libusb-1.0.23\include\libusb-1.0\libusb.h(766): note: This member will be ignored by a defaulted constructor or copy/move assignment operator
-c:\program files\libusb-1.0.23\include\libusb-1.0\libusb.h(1259): warning C4200: nonstandard extension used: zero-sized array in struct/union
-  c:\program files\libusb-1.0.23\include\libusb-1.0\libusb.h(1259): note: This member will be ignored by a defaulted constructor or copy/move assignment operator
+c:\users\arvind\desktop\projects\momoplugin\momoplugin\main.cpp(27): warning C4005: 'FREENECT_COUNTS_PER_G': macro redefinition
+  c:\users\arvind\desktop\projects\libfreenect\include\libfreenect.h(42): note: see previous definition of 'FREENECT_COUNTS_PER_G'
+c:\users\arvind\desktop\projects\momoplugin\dlib\matrix\matrix.h(1567): warning C4297: 'dlib::matrix<double,2,2,dlib::default_memory_manager,dlib::row_major_layout>::literal_assign_helper::~literal_assign_helper': function assumed not to throw an exception but does
+  c:\users\arvind\desktop\projects\momoplugin\dlib\matrix\matrix.h(1567): note: destructor or deallocator has a (possibly implicit) non-throwing exception specification
+  c:\users\arvind\desktop\projects\momoplugin\dlib\matrix\matrix.h(1566): note: while compiling class template member function 'dlib::matrix<double,2,2,dlib::default_memory_manager,dlib::row_major_layout>::literal_assign_helper::~literal_assign_helper(void)'
+  c:\users\arvind\desktop\projects\momoplugin\dlib\geometry\vector.h(1370): note: see reference to function template instantiation 'dlib::matrix<double,2,2,dlib::default_memory_manager,dlib::row_major_layout>::literal_assign_helper::~literal_assign_helper(void)' being compiled
+  c:\users\arvind\desktop\projects\momoplugin\dlib\geometry\vector.h(1369): note: see reference to class template instantiation 'dlib::matrix<double,2,2,dlib::default_memory_manager,dlib::row_major_layout>::literal_assign_helper' being compiled
+  c:\program files\pcl 1.9.1\3rdparty\boost\boost_1_70_0\boost\bind\placeholders.hpp(54): note: see reference to class template instantiation 'boost::arg<9>' being compiled
+  c:\program files\pcl 1.9.1\3rdparty\boost\boost_1_70_0\boost\bind\placeholders.hpp(53): note: see reference to class template instantiation 'boost::arg<8>' being compiled
+  c:\program files\pcl 1.9.1\3rdparty\boost\boost_1_70_0\boost\bind\placeholders.hpp(52): note: see reference to class template instantiation 'boost::arg<7>' being compiled
+  c:\program files\pcl 1.9.1\3rdparty\boost\boost_1_70_0\boost\bind\placeholders.hpp(51): note: see reference to class template instantiation 'boost::arg<6>' being compiled
+  c:\program files\pcl 1.9.1\3rdparty\boost\boost_1_70_0\boost\bind\placeholders.hpp(50): note: see reference to class template instantiation 'boost::arg<5>' being compiled
+  c:\program files\pcl 1.9.1\3rdparty\boost\boost_1_70_0\boost\bind\placeholders.hpp(49): note: see reference to class template instantiation 'boost::arg<4>' being compiled
+  c:\program files\pcl 1.9.1\3rdparty\boost\boost_1_70_0\boost\bind\placeholders.hpp(48): note: see reference to class template instantiation 'boost::arg<3>' being compiled
+  c:\program files\pcl 1.9.1\3rdparty\boost\boost_1_70_0\boost\bind\placeholders.hpp(47): note: see reference to class template instantiation 'boost::arg<2>' being compiled
+  c:\program files\pcl 1.9.1\3rdparty\boost\boost_1_70_0\boost\bind\placeholders.hpp(46): note: see reference to class template instantiation 'boost::arg<1>' being compiled
 LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/LTCG' specification
      Creating library C:\Users\Arvind\Desktop\Projects\MOMOPlugin\Bin\x64-Release\MOMOPlugin.lib and object C:\Users\Arvind\Desktop\Projects\MOMOPlugin\Bin\x64-Release\MOMOPlugin.exp
   Generating code
-  2 of 6494 functions (<0.1%) were compiled, the rest were copied from previous compilation.
-    0 functions were new in current compilation
-    0 functions had inline decision re-evaluated but remain unchanged
+  3 of 7745 functions (<0.1%) were compiled, the rest were copied from previous compilation.
+    2 functions were new in current compilation
+    3 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
   MOMOPlugin.vcxproj -> C:\Users\Arvind\Desktop\Projects\MOMOPlugin\Bin\x64-Release\MOMOPlugin.exe

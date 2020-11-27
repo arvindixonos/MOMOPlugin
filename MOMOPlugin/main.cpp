@@ -6,6 +6,9 @@
 #endif
 #endif
 
+#include <tinyxml2.h>
+
+
 #include "MOMOManager.h"
 
 //using namespace openni;
@@ -13,7 +16,9 @@
 //using namespace pcl;
 //using namespace pcl::io::openni2;
 //using namespace boost;
+
 using namespace MOMO;
+using namespace tinyxml2;
 
 
 // VID and PID for Kinect and motor/acc/leds

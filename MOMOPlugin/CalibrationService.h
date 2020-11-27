@@ -11,6 +11,9 @@
 #include <boost/shared_ptr.hpp>
 #include <Eigen/Core>
 
+#include <matrix/matrix.h>
+#include <matrix/matrix_qr.h>
+
 #include "InteractionHandler.h"
 
 
@@ -26,9 +29,8 @@ namespace MOMO
 		void UpdateService();
 		void StopService();
 
-
 		void DrawChessboard(int x, int y);
-		void DrawTestingPoint(Eigen::Vector2f projectedPoint);
+		void DrawTestingPoint(cv::Point2f projectedPoint);
 		void AddPointPair();
 
 		bool isTesting() const { return testing; }
@@ -46,9 +48,20 @@ namespace MOMO
 
 		bool shouldDrawIndicator();
 
-	private:
-		//ofxCvColorImage             rgbImage;
+		void KeyPressed(int key);
 
+		void Calibrate();
+
+		cv::Point2f GetProjectedPoint(cv::Point3f worldPoint);
+
+		std::vector<double> GetCalibration();
+
+		void LoadCalibration();
+		void SaveCalibration(std::string path);
+
+		bool isCalibrated() { return calibrated; }
+
+	private:
 		bool mouseDown;
 		cv::Point mousePoint;
 
@@ -58,21 +71,22 @@ namespace MOMO
 		cv::String projectorWindowName;
 		cv::Mat projectorMat;
 
-		boost::container::vector<Eigen::Vector2f>             currentProjectorPoints;
+		std::vector<cv::Point2f>           currentProjectorPoints;
 		std::vector<cv::Point2f>			cvPoints;
-		//vector<ofVec3f>             pairsKinect;
-		//vector<ofVec2f>             pairsProjector;
+		std::vector<cv::Point3f>	        pairsKinect;
+		std::vector<cv::Point2f>           pairsProjector;
 
-		//string                      resultMessage;
-		//ofColor                     resultMessageColor;
-		Eigen::Vector2f             testPoint;
+		cv::Point					testPoint;
 
 		int                         chessboardSize;
 		int                         chessboardX;
 		int                         chessboardY;
 		bool                        testing;
-		bool                        saved;
-
 		bool						foundChessboard;
+		bool						calibrated;
+
+		dlib::matrix<double, 0, 11> A;
+		dlib::matrix<double, 0, 1> y;
+		dlib::matrix<double, 11, 1> x;
 	};
 }

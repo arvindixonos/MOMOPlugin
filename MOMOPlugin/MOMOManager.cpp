@@ -67,6 +67,8 @@ void MOMOManager::Init()
 	{
 		SwitchToGameMode();
 	}
+
+	calibrationService->LoadCalibration();
 }
 
 void MOMOManager::Initfreenect()
@@ -149,6 +151,10 @@ void MOMOManager::InitOpenNIGrabber()
 		return;
 	}
 
+	openniDevice->setImageRegistrationMode(ImageRegistrationMode::IMAGE_REGISTRATION_DEPTH_TO_COLOR);
+	bool isSupported = openniDevice->isImageRegistrationModeSupported(ImageRegistrationMode::IMAGE_REGISTRATION_DEPTH_TO_COLOR);
+	opennistatus = openniDevice->setDepthColorSyncEnabled(true);
+
 	const std::string device_id = openniDevice->getDeviceInfo().getUri();
 	openni2Grabber = boost::make_shared<pcl::io::OpenNI2Grabber>(device_id);
 	boost::function<void(const PointCloud<PointXYZ>::ConstPtr&)> cloudCallbackfnPtr = boost::bind(&MOMOManager::CloudAvailable, this, _1);
@@ -159,6 +165,10 @@ void MOMOManager::InitOpenNIGrabber()
 	openni2Grabber->registerCallback(colorImageCallbackfnPtr);
 	openni2Grabber->registerCallback(depthImageCallbackfnPtr);
 	openni2Grabber->start();
+
+	depthStream = boost::make_shared<openni::VideoStream>();
+	depthStream->create(*openniDevice, openni::SENSOR_DEPTH);
+	depthStream->start();
 }
 
 
@@ -176,6 +186,17 @@ void MOMO::MOMOManager::CloudAvailable(const PointCloud<PointXYZ>::ConstPtr &clo
 	//	cloudMutex.unlock();
 	//}
 
+}
+
+cv::Point3f MOMOManager::GetWorldPosition(int depthX, int depthY, int depthZ)
+{
+	float worldX, worldY, worldZ;
+
+	openni::Status status = openni::CoordinateConverter::convertDepthToWorld(*depthStream, depthX, depthY, depthZ, &worldX, &worldY, &worldZ);
+
+	cv::Point3f point(worldX, worldY, worldZ);
+
+	return point;
 }
 
 cv::Mat MOMOManager::GetRGBMat()
@@ -258,8 +279,6 @@ void MOMOManager::InitBuffers()
 	depthDataSize = KINECT_DEPTH_WIDTH * KINECT_DEPTH_HEIGHT;
 	depthData = new unsigned short[depthDataSize];
 	depthMat = cv::Mat(KINECT_DEPTH_HEIGHT, KINECT_DEPTH_WIDTH, CV_8UC1);
-
-
 }
 
 void MOMO::MOMOManager::Update(double dt)
@@ -364,6 +383,8 @@ void MOMOManager::Exit()
 
 	stabilityCheckService->StopService();
 	calibrationService->StopService();
+
+	depthStream->stop();
 
 	fnc = nullptr;
 	fnv = nullptr;

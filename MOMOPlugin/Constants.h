@@ -3,6 +3,9 @@
 #include <boost/bind.hpp>
 #include <boost/function.hpp>
 
+
+#define CALIBRATION_FILE_NAME "MOMOCalibration.xml"
+
 #define  CALIBRATION_MODE 1
 
 #define GAME_WINDOW_SIZE_X 1280

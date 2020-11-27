@@ -76,6 +76,8 @@ namespace MOMO
 		unsigned short* GetDepthData() const { return depthData; }
 		cv::Mat GetDepthMat() const { return depthMat; }
 
+		cv::Point3f GetWorldPosition(int depthX, int depthY, int depthZ);
+
 		MOMOManager();
 		~MOMOManager();
 	private:
@@ -96,6 +98,7 @@ namespace MOMO
 	
 		boost::shared_ptr<openni::Device> openniDevice;
 		boost::shared_ptr<pcl::io::OpenNI2Grabber> openni2Grabber;
+		boost::shared_ptr<openni::VideoStream> depthStream;
 
 		bool calibrationMode;
 
